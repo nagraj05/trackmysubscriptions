@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: backend
+    env: node
+    rootDir: backend
+    buildCommand: npm install && npx playwright install chromium --with-deps
+    startCommand: node src/index.js
+    envVars:
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: 0
+
+  - type: web
+    name: frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist

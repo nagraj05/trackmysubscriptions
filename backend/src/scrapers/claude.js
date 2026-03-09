@@ -1,71 +1,80 @@
-import { chromium } from "playwright"
+import { chromium } from "playwright";
 
 export async function scrapeClaude() {
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
-
+  let browser;
   try {
-    await page.goto("https://claude.com/pricing", { waitUntil: 'networkidle' });
-    
-    // Give it a bit more time to settle
-    await page.waitForTimeout(2000);
+    browser = await chromium.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Required for Render
+    });
+
+    const page = await browser.newPage();
+
+    // Block images/fonts to speed up scraping
+    await page.route("**/*.{png,jpg,jpeg,gif,webp,woff,woff2}", (route) =>
+      route.abort()
+    );
+
+    await page.goto("https://claude.ai/pricing", {
+      waitUntil: "domcontentloaded",
+      timeout: 30000,
+    });
+
+    // Wait for any element that looks like a price to appear
+    await page.waitForSelector("body", { timeout: 10000 });
+    await page.waitForTimeout(3000);
 
     const plans = await page.evaluate(() => {
-      // Look for cards or sections that contain pricing info
-      // Based on common Webflow layouts used by Anthropic
-      const cards = Array.from(document.querySelectorAll('div[class*="pricing"], section, .card, [class*="card"]'));
-      
       const results = [];
       const seenPlans = new Set();
 
-      cards.forEach(card => {
-        const h3 = card.querySelector('h3');
-        if (!h3) return;
+      // Dump all text content by heading to find plan sections
+      const headings = Array.from(document.querySelectorAll("h1, h2, h3, h4"));
 
-        const planName = h3.innerText.trim();
+      const validPlans = ["Free", "Pro", "Max"];
+
+      headings.forEach((heading) => {
+        const planName = heading.innerText?.trim();
+        if (!validPlans.includes(planName)) return;
         if (seenPlans.has(planName)) return;
 
-        // Valid Claude Individual plans
-        const validPlans = ['Free', 'Pro', 'Max'];
-        if (!validPlans.includes(planName)) return;
+        // Walk up to find the containing card, then grab all its text
+        let container = heading;
+        for (let i = 0; i < 5; i++) {
+          if (container.parentElement) container = container.parentElement;
+        }
 
-        // Find the price. Usually a div/p with a large number or $
-        const allText = card.innerText;
-        
-        // Match monthly prices specifically
-        // Pro says "$20 if billed monthly" and "$17... with annual"
-        // Max says "From $100"
-        
+        const allText = container.innerText || "";
+
+        // Extract price using regex — more robust than hardcoded includes
         let price = 0;
-        if (planName === 'Free') {
-          price = 0;
-        } else if (planName === 'Pro') {
-          // Look for $20 in the text
-          if (allText.includes('$20')) price = 20;
-          else if (allText.includes('$17')) price = 20; // Default to monthly if we find the annual price
-        } else if (planName === 'Max') {
-          // Look for $100
-          if (allText.includes('$100')) price = 100;
+        if (planName !== "Free") {
+          // Match patterns like "$20", "$100", "$17"
+          const priceMatches = allText.match(/\$(\d+)/g);
+          if (priceMatches && priceMatches.length > 0) {
+            // Take the first (usually monthly) price
+            price = parseInt(priceMatches[0].replace("$", ""), 10);
+          }
         }
 
         results.push({
           name: planName,
-          price: price,
-          currency: 'USD',
-          interval: 'monthly'
+          price,
+          currency: "USD",
+          interval: "monthly",
         });
+
         seenPlans.add(planName);
       });
 
       return results;
     });
 
-    await browser.close();
-    // Filter out empty results if any
-    return plans.filter(p => p.name && (p.price > 0 || p.name === 'Free'));
+    return plans.filter((p) => p.name && (p.price > 0 || p.name === "Free"));
   } catch (error) {
     console.error("Claude scraping failed:", error);
-    if (browser) await browser.close();
     throw error;
+  } finally {
+    if (browser) await browser.close(); // Always closes, even on error
   }
 }
