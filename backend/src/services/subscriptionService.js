@@ -24,7 +24,7 @@ export const SubscriptionService = {
       ON CONFLICT (service_name, plan_name, interval) 
       DO UPDATE SET price = EXCLUDED.price, last_updated = EXCLUDED.last_updated;
     `;
-    return query(sql, [serviceName, plan.name, plan.price, plan.currency, plan.interval]);
+    return query(sql, [serviceName, plan.plan_name, plan.price, plan.currency, plan.interval]);
   },
 
   getAllSubscriptions: async () => {

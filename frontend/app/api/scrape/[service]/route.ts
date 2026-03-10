@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import { SubscriptionService } from '@/services/subscriptionService';
-import { scrapeCursor } from '@/services/scrapers/cursor';
-import { scrapeClaude } from '@/services/scrapers/claude';
+import axios from 'axios';
 
 export async function GET(
   request: Request,
@@ -11,27 +9,11 @@ export async function GET(
   const service = serviceParam.toLowerCase();
 
   try {
-    let plans: unknown[] = [];
+    const endpoint = `${process.env.SCRAPER_API_URL || "http://localhost:5000"}/api/scrape/${service}`;
+    const res = await axios.get(endpoint);
+    const plans = res.data as { plan_name: string; price: number; currency: string; interval: string }[];
 
-    if (service === 'cursor') {
-      plans = (await scrapeCursor()) as unknown[];
-    } else if (service === 'claude') {
-      plans = (await scrapeClaude()) as unknown[];
-    } else {
-      return NextResponse.json(
-        { error: `Unknown service: ${service}` },
-        { status: 400 }
-      );
-    }
-
-    const serviceLabel = service.charAt(0).toUpperCase() + service.slice(1);
-    const validPlans = plans as { name: string; price: number; currency: string; interval: string }[];
-
-    for (const plan of validPlans) {
-      await SubscriptionService.upsertSubscription(serviceLabel, plan);
-    }
-
-    return NextResponse.json({ success: true, count: plans.length });
+    return NextResponse.json({ success: true, count: plans.length, data: plans });
 
   } catch (error: unknown) {
 
