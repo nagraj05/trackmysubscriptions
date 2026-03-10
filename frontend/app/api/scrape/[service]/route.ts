@@ -5,17 +5,18 @@ import { scrapeClaude } from '@/services/scrapers/claude';
 
 export async function GET(
   request: Request,
-  { params }: { params: { service: string } }
+  { params }: { params: Promise<{ service: string }> }
 ) {
-  const service = params.service.toLowerCase();
+  const { service: serviceParam } = await params;
+  const service = serviceParam.toLowerCase();
 
   try {
-    let plans = [];
+    let plans: unknown[] = [];
 
     if (service === 'cursor') {
-      plans = await scrapeCursor();
+      plans = (await scrapeCursor()) as unknown[];
     } else if (service === 'claude') {
-      plans = await scrapeClaude();
+      plans = (await scrapeClaude()) as unknown[];
     } else {
       return NextResponse.json(
         { error: `Unknown service: ${service}` },
@@ -24,8 +25,9 @@ export async function GET(
     }
 
     const serviceLabel = service.charAt(0).toUpperCase() + service.slice(1);
+    const validPlans = plans as { name: string; price: number; currency: string; interval: string }[];
 
-    for (const plan of plans) {
+    for (const plan of validPlans) {
       await SubscriptionService.upsertSubscription(serviceLabel, plan);
     }
 
