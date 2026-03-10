@@ -26,13 +26,8 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-// Initialize DB
-SubscriptionService.createTable()
-  .then(() => {
-    console.log("Database initialized");
-    initCronJobs();
-  })
-  .catch(err => console.error("DB init failed", err));
+// Scraper service doesn't need DB or local cron
+// Vercel/Next.js handles the persistence and scheduling
 
 app.use('/api', subscriptionRoutes);
 
