@@ -5,6 +5,8 @@ import { scrapeNetflix } from '../scrapers/netflix.js';
 import { scrapePrime } from '../scrapers/prime.js';
 import { scrapeHotstar } from '../scrapers/hotstar.js';
 import { scrapeAppleTV } from '../scrapers/appletv.js';
+import { scrapeChatGPT } from '../scrapers/chatgpt.js';
+import { scrapeAntigravity } from '../scrapers/antigravity.js';
 import { CurrencyService } from '../services/currencyService.js';
 
 export const SubscriptionController = {
@@ -77,6 +79,30 @@ export const SubscriptionController = {
       res.json(plans);
     } catch (error) {
       res.status(500).json({ error: "Failed to scrape Apple TV+", details: error.message });
+    }
+  },
+
+  scrapeChatGPT: async (req, res) => {
+    try {
+      const plans = await scrapeChatGPT();
+      for (const plan of plans) {
+        await SubscriptionService.upsertSubscription('ChatGPT', plan);
+      }
+      res.json(plans);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to scrape ChatGPT", details: error.message });
+    }
+  },
+
+  scrapeAntigravity: async (req, res) => {
+    try {
+      const plans = await scrapeAntigravity();
+      for (const plan of plans) {
+        await SubscriptionService.upsertSubscription('Antigravity', plan);
+      }
+      res.json(plans);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to scrape Antigravity", details: error.message });
     }
   },
 
