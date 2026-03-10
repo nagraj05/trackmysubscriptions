@@ -30,10 +30,10 @@ export default function Section({
         >
           <Icon size={16} style={{ color: cfg.accent }} />
         </div>
-        <h2 className="text-sm font-black uppercase tracking-[0.25em] text-zinc-400">{cfg.label}</h2>
-        <div className="flex-1 h-px bg-white/5 mx-4" />
+        <h2 className="text-sm font-black uppercase tracking-[0.25em] text-muted-foreground">{cfg.label}</h2>
+        <div className="flex-1 h-px bg-border mx-4 opacity-50" />
         <span
-          className="text-[10px] font-bold px-3 py-1 rounded-full border border-white/5 uppercase tracking-widest"
+          className="text-[10px] font-bold px-3 py-1 rounded-full border uppercase tracking-widest"
           style={{ color: cfg.accent, backgroundColor: `${cfg.accent}10`, borderColor: `${cfg.accent}25` }}
         >
           {services.length} {services.length === 1 ? 'service' : 'services'}

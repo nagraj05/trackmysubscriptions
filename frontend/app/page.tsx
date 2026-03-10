@@ -21,8 +21,6 @@ import Section from "@/components/Section";
 import { categorize, CATEGORY_CONFIG } from "@/config/categoryConfig";
 import { Subscription } from "@/types";
 import claudeIcon from "@/public/icons/claude-ai-icon.svg";
-import geminiIcon from "@/public/icons/gemini-icon.svg";
-import perplexityIcon from "@/public/icons/perplexity-ai-icon.svg";
 import cursorIcon from "@/public/icons/cursor-ai-code-icon.svg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -115,87 +113,9 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen bg-[#080809] text-zinc-100 font-sans selection:bg-emerald-400 selection:text-black"
-      style={{ fontFamily: "'DM Sans', 'Inter', sans-serif" }}
+    // className="min-h-screen bg-[#080809] text-zinc-100 font-sans selection:bg-emerald-400 selection:text-black"
     >
-      {/* Ambient BG */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/5 blur-[160px] rounded-full" />
-        <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-pink-500/5 blur-[140px] rounded-full" />
-        <div className="absolute top-1/2 left-0 w-72 h-72 bg-violet-500/5 blur-[120px] rounded-full" />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-            backgroundSize: "80px 80px",
-          }}
-        />
-      </div>
-
-      {/* ── Header ── */}
-      <header className="relative border-b border-white/5 backdrop-blur-sm">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center shadow-lg shadow-white/10">
-              <CreditCard size={18} className="text-black" />
-            </div>
-            <div>
-              <span className="font-black text-white tracking-tight text-lg">
-                Track
-              </span>
-              <span className="ml-1 text-zinc-600 font-black text-lg">
-                My Subscriptions
-              </span>
-            </div>
-          </div>
-
-          {/* Status + Actions */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-end">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/4 border border-white/[0.07]">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              </span>
-              <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
-                Live
-              </span>
-            </div>
-
-            <Button
-              onClick={() => handleScrape("cursor")}
-              disabled={!!scraping}
-              // variant={"destructive"}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/7 hover:bg-white/12 border border-white/8 rounded-xl text-[10px] sm:text-xs font-bold text-white transition-all disabled:opacity-40"
-            >
-              {scraping === "cursor" ? (
-                <RefreshCw size={13} className="animate-spin" />
-              ) : (
-                <Image src={cursorIcon} alt="Cursor" width={14} height={14} />
-              )}
-
-              <span className="hidden min-[400px]:inline">Cursor</span>
-            </Button>
-            <Button
-              onClick={() => handleScrape("claude")}
-              disabled={!!scraping}
-              // variant={"outline"}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl text-[10px] sm:text-xs font-bold text-emerald-400 transition-all disabled:opacity-40"
-            >
-              {scraping === "claude" ? (
-                <RefreshCw size={13} className="animate-spin" />
-              ) : (
-                <Image src={claudeIcon} alt="Claude" width={14} height={14} />
-              )}
-              <span className="hidden min-[400px]:inline">Claude</span>
-            </Button>
-          </div>
-        </div>
-      </header>
-
       <div className="relative max-w-5xl mx-auto px-6 py-12 space-y-14">
-        {/* ── Hero ── */}
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-4">
             <Sparkles size={14} className="text-zinc-500" />
@@ -203,7 +123,7 @@ export default function Home() {
               Subscription Intelligence
             </span>
           </div>
-          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight sm:leading-none">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight   leading-tight sm:leading-none">
             Your Digital
             <br />
             <span className="text-zinc-600">Subscriptions</span>
@@ -365,9 +285,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
-      {/* ── Footer ── */}
-      <Footer />
     </div>
   );
 }

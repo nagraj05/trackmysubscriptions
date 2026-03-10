@@ -1,4 +1,4 @@
-import { cn } from "@/utils/utils";
+import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import PlanCard from "./PlanCard";
@@ -25,8 +25,8 @@ export default function ServiceCard({
   return (
     <div
       className={cn(
-        "rounded-3xl border border-white/[0.07] overflow-hidden transition-all duration-300",
-        open ? "bg-zinc-900/70" : "bg-zinc-900/40 hover:bg-zinc-900/60"
+        "rounded-3xl border border-border overflow-hidden transition-all duration-300",
+        open ? "bg-muted/50" : "bg-card hover:bg-muted/30"
       )}
     >
       {/* Header */}
@@ -42,8 +42,8 @@ export default function ServiceCard({
             <Icon size={20} style={{ color: cfg.accent }} />
           </div>
           <div className="text-left">
-            <div className="font-bold text-white text-base">{serviceName}</div>
-            <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold">
+            <div className="font-bold text-foreground text-base">{serviceName}</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">
               {plans.length} plan{plans.length > 1 ? "s" : ""}
             </div>
           </div>
@@ -61,12 +61,12 @@ export default function ServiceCard({
           <div
             className={cn(
               "h-8 w-8 rounded-xl flex items-center justify-center border transition-all",
-              open ? "bg-white/10 border-white/10" : "bg-white/3 border-white/5 group-hover:bg-white/[0.07]"
+              open ? "bg-accent border-border" : "bg-muted border-border hover:bg-accent/50"
             )}
           >
             <ChevronRight
               size={16}
-              className={cn("text-zinc-400 transition-transform duration-300", open && "rotate-90")}
+              className={cn("text-muted-foreground transition-transform duration-300", open && "rotate-90")}
             />
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function ServiceCard({
         )}
       >
         <div className="px-5 pb-5 space-y-2 pt-1">
-          <div className="h-px bg-white/5 mb-4" />
+          <div className="h-px bg-border mb-4 opacity-50" />
           {plans
             .sort((a, b) => a.price - b.price)
             .map((plan) => (
