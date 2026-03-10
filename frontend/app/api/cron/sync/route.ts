@@ -17,14 +17,14 @@ export async function GET(request: Request) {
     await SubscriptionService.createTable();
 
     // Sync Cursor
-    const cursorPlans = (await scrapeCursor()) as { name: string; price: number; currency: string; interval: string }[];
+    const cursorPlans = (await scrapeCursor()) as { plan_name: string; price: number; currency: string; interval: string }[];
     for (const plan of cursorPlans) {
       await SubscriptionService.upsertSubscription('Cursor', plan);
     }
     console.log(`[CRON] Synced Cursor pricing.`);
 
     // Sync Claude
-    const claudePlans = (await scrapeClaude()) as { name: string; price: number; currency: string; interval: string }[];
+    const claudePlans = (await scrapeClaude()) as { plan_name: string; price: number; currency: string; interval: string }[];
     for (const plan of claudePlans) {
       await SubscriptionService.upsertSubscription('Claude', plan);
     }
