@@ -29,10 +29,10 @@ export async function scrapeNetflix() {
     // Hardcoded fallback data based on latest research for production stability
     // Scraping Netflix is notoriously difficult due to bot detection and region-specific redirects
     const plans = [
-      { name: "Mobile", price: 149, currency: "INR", interval: "monthly" },
-      { name: "Basic", price: 199, currency: "INR", interval: "monthly" },
-      { name: "Standard", price: 499, currency: "INR", interval: "monthly" },
-      { name: "Premium", price: 649, currency: "INR", interval: "monthly" }
+      { plan_name: "Mobile", price: 149, currency: "INR", interval: "monthly" },
+      { plan_name: "Basic", price: 199, currency: "INR", interval: "monthly" },
+      { plan_name: "Standard", price: 499, currency: "INR", interval: "monthly" },
+      { plan_name: "Premium", price: 649, currency: "INR", interval: "monthly" }
     ];
 
     return plans;
@@ -40,10 +40,10 @@ export async function scrapeNetflix() {
     console.error("Netflix scraping failed:", error);
     // Return latest known data as fallback for production resilience
     return [
-      { name: "Mobile", price: 149, currency: "INR", interval: "monthly" },
-      { name: "Basic", price: 199, currency: "INR", interval: "monthly" },
-      { name: "Standard", price: 499, currency: "INR", interval: "monthly" },
-      { name: "Premium", price: 649, currency: "INR", interval: "monthly" }
+      { plan_name: "Mobile", price: 149, currency: "INR", interval: "monthly" },
+      { plan_name: "Basic", price: 199, currency: "INR", interval: "monthly" },
+      { plan_name: "Standard", price: 499, currency: "INR", interval: "monthly" },
+      { plan_name: "Premium", price: 649, currency: "INR", interval: "monthly" }
     ];
   } finally {
     if (browser) await browser.close();

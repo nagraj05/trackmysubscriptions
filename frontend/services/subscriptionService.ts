@@ -18,14 +18,14 @@ export const SubscriptionService = {
     return query(sql);
   },
 
-  upsertSubscription: async (serviceName: string, plan: { name: string; price: number; currency: string; interval: string }) => {
+  upsertSubscription: async (serviceName: string, plan: { plan_name: string; price: number; currency: string; interval: string }) => {
     const sql = `
       INSERT INTO subscriptions (service_name, plan_name, price, currency, interval, last_updated)
       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
       ON CONFLICT (service_name, plan_name, interval) 
       DO UPDATE SET price = EXCLUDED.price, last_updated = EXCLUDED.last_updated;
     `;
-    return query(sql, [serviceName, plan.name, plan.price, plan.currency, plan.interval]);
+    return query(sql, [serviceName, plan.plan_name, plan.price, plan.currency, plan.interval]);
   },
 
   getAllSubscriptions: async (): Promise<Subscription[]> => {

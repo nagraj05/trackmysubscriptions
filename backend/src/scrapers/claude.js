@@ -58,7 +58,7 @@ export async function scrapeClaude() {
         }
 
         results.push({
-          name: planName,
+          plan_name: planName,
           price,
           currency: "USD",
           interval: "monthly",

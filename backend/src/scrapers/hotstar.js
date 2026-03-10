@@ -22,19 +22,22 @@ export async function scrapeHotstar() {
 
     // Hotstar pricing often changes. Latest known plans as of early 2026.
     const plans = [
-      { name: "Super (Annual)", price: 899, currency: "INR", interval: "yearly" },
-      { name: "Premium (Monthly)", price: 299, currency: "INR", interval: "monthly" },
-      { name: "Premium (Annual)", price: 1499, currency: "INR", interval: "yearly" }
+      { plan_name: "Super (Monthly)", price: 299, currency: "INR", interval: "monthly" },
+      { plan_name: "Super (Annual)", price: 899, currency: "INR", interval: "yearly" },
+      { plan_name: "Premium (Monthly)", price: 299, currency: "INR", interval: "monthly" },
+      { plan_name: "Premium (Annual)", price: 1499, currency: "INR", interval: "yearly" }
     ];
 
     return plans;
   } catch (error) {
     console.error("Hotstar scraping failed:", error);
-    return [
-      { name: "Super (Annual)", price: 899, currency: "INR", interval: "yearly" },
-      { name: "Premium (Monthly)", price: 299, currency: "INR", interval: "monthly" },
-      { name: "Premium (Annual)", price: 1499, currency: "INR", interval: "yearly" }
+    const plans = [
+      { plan_name: 'Super (Monthly)', price: 299, currency: 'INR', interval: 'monthly' },
+      { plan_name: 'Super (Annual)', price: 899, currency: 'INR', interval: 'yearly' },
+      { plan_name: 'Premium (Monthly)', price: 299, currency: 'INR', interval: 'monthly' },
+      { plan_name: 'Premium (Annual)', price: 1499, currency: 'INR', interval: 'yearly' }
     ];
+    return plans;
   } finally {
     if (browser) await browser.close();
   }

@@ -62,7 +62,7 @@ export async function scrapeCursor() {
         }
 
         results.push({
-          name: planName,
+          plan_name: planName,
           price,
           currency: "USD",
           interval: "monthly",
@@ -74,7 +74,7 @@ export async function scrapeCursor() {
       return results;
     });
 
-    return plans.filter((p) => p.name);
+    return plans.filter((p) => p.plan_name);
   } catch (error) {
     console.error("Cursor scraping failed:", error);
     throw error;

@@ -417,7 +417,7 @@ export default function Home() {
                 Total / mo
               </div>
               <div className="text-2xl font-black text-white leading-none">
-                ${totalMonthlySpend.toFixed(2)}
+                {currencySymbol}{totalMonthlySpend.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
               </div>
             </div>
 

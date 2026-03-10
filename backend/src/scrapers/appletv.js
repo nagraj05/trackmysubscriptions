@@ -22,14 +22,14 @@ export async function scrapeAppleTV() {
 
     // Apple TV+ has a very simple pricing structure.
     const plans = [
-      { name: "Monthly", price: 99, currency: "INR", interval: "monthly" }
+      { plan_name: 'Monthly', price: 99, currency: 'INR', interval: 'monthly' }
     ];
 
     return plans;
   } catch (error) {
     console.error("Apple TV+ scraping failed:", error);
     return [
-      { name: "Monthly", price: 99, currency: "INR", interval: "monthly" }
+      { plan_name: "Monthly", price: 99, currency: "INR", interval: "monthly" }
     ];
   } finally {
     if (browser) await browser.close();
