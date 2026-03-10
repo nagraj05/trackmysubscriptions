@@ -12,7 +12,7 @@ import {
   Layers,
   CheckCircle2,
   Zap,
-  Bot
+  Bot,
 } from "lucide-react";
 
 import Footer from "@/components/Footer";
@@ -20,7 +20,12 @@ import StatCard from "@/components/StatCard";
 import Section from "@/components/Section";
 import { categorize, CATEGORY_CONFIG } from "@/config/categoryConfig";
 import { Subscription } from "@/types";
-
+import claudeIcon from "@/public/icons/claude-ai-icon.svg";
+import geminiIcon from "@/public/icons/gemini-icon.svg";
+import perplexityIcon from "@/public/icons/perplexity-ai-icon.svg";
+import cursorIcon from "@/public/icons/cursor-ai-code-icon.svg";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 // ─── Main Component ────────────────────────────────────────────────────────────
 export default function Home() {
@@ -28,7 +33,9 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [scraping, setScraping] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPlanIds, setSelectedPlanIds] = useState<Record<string, number>>({});
+  const [selectedPlanIds, setSelectedPlanIds] = useState<
+    Record<string, number>
+  >({});
 
   const fetchSubscriptions = async () => {
     try {
@@ -67,7 +74,10 @@ export default function Home() {
 
   // Group by category
   const categorized = useMemo(() => {
-    const result: Record<"ai" | "ott" | "misc", Record<string, Subscription[]>> = {
+    const result: Record<
+      "ai" | "ott" | "misc",
+      Record<string, Subscription[]>
+    > = {
       ai: {},
       ott: {},
       misc: {},
@@ -98,7 +108,8 @@ export default function Home() {
     }));
   };
 
-  const totalServices = Object.keys(categorized.ai).length +
+  const totalServices =
+    Object.keys(categorized.ai).length +
     Object.keys(categorized.ott).length +
     Object.keys(categorized.misc).length;
 
@@ -131,8 +142,12 @@ export default function Home() {
               <CreditCard size={18} className="text-black" />
             </div>
             <div>
-              <span className="font-black text-white tracking-tight text-lg">Track</span>
-              <span className="ml-1 text-zinc-600 font-black text-lg">My Subscriptions</span>
+              <span className="font-black text-white tracking-tight text-lg">
+                Track
+              </span>
+              <span className="ml-1 text-zinc-600 font-black text-lg">
+                My Subscriptions
+              </span>
             </div>
           </div>
 
@@ -143,25 +158,38 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
               </span>
-              <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">Live</span>
+              <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+                Live
+              </span>
             </div>
 
-            <button
+            <Button
               onClick={() => handleScrape("cursor")}
               disabled={!!scraping}
+              // variant={"destructive"}
               className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/7 hover:bg-white/12 border border-white/8 rounded-xl text-[10px] sm:text-xs font-bold text-white transition-all disabled:opacity-40"
             >
-              {scraping === "cursor" ? <RefreshCw size={13} className="animate-spin" /> : <Zap size={13} />}
+              {scraping === "cursor" ? (
+                <RefreshCw size={13} className="animate-spin" />
+              ) : (
+                <Image src={cursorIcon} alt="Cursor" width={14} height={14} />
+              )}
+
               <span className="hidden min-[400px]:inline">Cursor</span>
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => handleScrape("claude")}
               disabled={!!scraping}
+              // variant={"outline"}
               className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 rounded-xl text-[10px] sm:text-xs font-bold text-emerald-400 transition-all disabled:opacity-40"
             >
-              {scraping === "claude" ? <RefreshCw size={13} className="animate-spin" /> : <Bot size={13} />}
+              {scraping === "claude" ? (
+                <RefreshCw size={13} className="animate-spin" />
+              ) : (
+                <Image src={claudeIcon} alt="Claude" width={14} height={14} />
+              )}
               <span className="hidden min-[400px]:inline">Claude</span>
-            </button>
+            </Button>
           </div>
         </div>
       </header>
@@ -299,7 +327,10 @@ export default function Home() {
                     className="h-8 w-8 rounded-xl flex items-center justify-center border-2 border-[#080809]"
                     style={{ backgroundColor: `${accent}20` }}
                   >
-                    <span className="text-[9px] font-black" style={{ color: accent }}>
+                    <span
+                      className="text-[9px] font-black"
+                      style={{ color: accent }}
+                    >
                       {plan.service_name[0]}
                     </span>
                   </div>
@@ -307,14 +338,18 @@ export default function Home() {
               })}
               {selectedPlans.length > 4 && (
                 <div className="h-8 w-8 rounded-xl bg-white/5 border-2 border-[#080809] flex items-center justify-center">
-                  <span className="text-[9px] font-black text-zinc-500">+{selectedPlans.length - 4}</span>
+                  <span className="text-[9px] font-black text-zinc-500">
+                    +{selectedPlans.length - 4}
+                  </span>
                 </div>
               )}
             </div>
 
             {/* Total */}
             <div className="flex-1 text-center">
-              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">Total / mo</div>
+              <div className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-600">
+                Total / mo
+              </div>
               <div className="text-2xl font-black text-white leading-none">
                 ${totalMonthlySpend.toFixed(2)}
               </div>
