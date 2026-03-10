@@ -3,7 +3,6 @@
 import { useEffect, useState, useMemo } from "react";
 import {
   RefreshCw,
-  CreditCard,
   TrendingUp,
   DollarSign,
   AlertCircle,
@@ -11,21 +10,14 @@ import {
   ArrowUp,
   Layers,
   CheckCircle2,
-  Zap,
   Bot,
 } from "lucide-react";
 
-import Footer from "@/components/Footer";
 import StatCard from "@/components/StatCard";
 import Section from "@/components/Section";
 import { categorize, CATEGORY_CONFIG } from "@/config/categoryConfig";
 import { Subscription } from "@/types";
-import claudeIcon from "@/public/icons/claude-ai-icon.svg";
-import cursorIcon from "@/public/icons/cursor-ai-code-icon.svg";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 
-// ─── Main Component ────────────────────────────────────────────────────────────
 export default function Home() {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [loading, setLoading] = useState(true);
@@ -112,9 +104,7 @@ export default function Home() {
     Object.keys(categorized.misc).length;
 
   return (
-    <div
-    // className="min-h-screen bg-[#080809] text-zinc-100 font-sans selection:bg-emerald-400 selection:text-black"
-    >
+    <div>
       <div className="relative max-w-5xl mx-auto px-6 py-12 space-y-14">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-4">
