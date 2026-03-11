@@ -23,7 +23,7 @@ export const CurrencyService = {
     } catch (error) {
       console.error('Failed to fetch exchange rate:', error.message);
       // Fallback to a reasonable default if API fails
-      return cachedRate || 83.0; 
+      return cachedRate ; 
     }
   }
 };
