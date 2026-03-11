@@ -1,14 +1,23 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 
+interface FrankfurterResponse {
+  rates: Record<string, number>;
+  base: string;
+  date: string;
+}
+
 export async function GET() {
-  const scraperUrl = process.env.SCRAPER_API_URL || "http://localhost:5000";
   try {
-    const res = await axios.get(`${scraperUrl}/api/exchange-rate`);
-    return NextResponse.json(res.data);
+    const response = await axios.get<FrankfurterResponse>('https://api.frankfurter.app/latest?from=USD&to=INR');
+    
+    if (response.data?.rates?.INR) {
+      return NextResponse.json({ rate: response.data.rates.INR });
+    }
+    
+    throw new Error('Invalid response from exchange rate API');
   } catch (error) {
-    console.error("Exchange rate proxy failed:", error);
-    // Fallback if backend is down
+    console.error("Exchange rate fetch failed:", error);
     return NextResponse.json({ rate: 83.0 });
   }
 }
