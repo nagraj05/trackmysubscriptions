@@ -9,6 +9,8 @@ router.get('/scrape/netflix', SubscriptionController.scrapeNetflix);
 router.get('/scrape/prime', SubscriptionController.scrapePrime);
 router.get('/scrape/hotstar', SubscriptionController.scrapeHotstar);
 router.get('/scrape/appletv', SubscriptionController.scrapeAppleTV);
+router.get('/scrape/chatgpt', SubscriptionController.scrapeChatGPT);
+router.get('/scrape/antigravity', SubscriptionController.scrapeAntigravity);
 router.get('/exchange-rate', SubscriptionController.getExchangeRate);
 router.get('/subscriptions', SubscriptionController.getSubscriptions);
 

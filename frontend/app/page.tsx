@@ -87,8 +87,8 @@ export default function Home() {
   };
 
   const handleScrapeAll = async () => {
-    const services = ["Cursor", "Claude", "Netflix", "Prime", "Hotstar", "AppleTV"];
-    toast.info("Starting bulk scrape for 6 services");
+    const services = ["Cursor", "Claude", "Netflix", "Prime", "Hotstar", "AppleTV", "ChatGPT", "Antigravity"];
+    toast.info("Starting bulk scrape for 8 services");
     for (const service of services) {
       await handleScrape(service);
     }
@@ -219,6 +219,24 @@ export default function Home() {
                   <div className="flex flex-col">
                     <span className="text-xs font-bold text-zinc-200 group-focus:text-white">Claude AI</span>
                     <span className="text-[9px] text-zinc-500">Anthropic Pricing</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleScrape("ChatGPT")} className="rounded-xl flex items-center gap-3 py-2.5 px-3 focus:bg-white/5 cursor-pointer group">
+                  <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-white/5 flex items-center justify-center group-focus:border-white/20 transition-colors">
+                    <Sparkles size={14} className="text-zinc-400 group-focus:text-white" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-zinc-200 group-focus:text-white">ChatGPT</span>
+                    <span className="text-[9px] text-zinc-500">OpenAI Plus & Team</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleScrape("Antigravity")} className="rounded-xl flex items-center gap-3 py-2.5 px-3 focus:bg-white/5 cursor-pointer group">
+                  <div className="h-8 w-8 rounded-lg bg-zinc-900 border border-white/5 flex items-center justify-center group-focus:border-white/20 transition-colors">
+                    <Bot size={14} className="text-zinc-400 group-focus:text-white" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-zinc-200 group-focus:text-white">Antigravity</span>
+                    <span className="text-[9px] text-zinc-500">Preview & Pro</span>
                   </div>
                 </DropdownMenuItem>
                 

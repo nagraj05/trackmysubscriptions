@@ -9,7 +9,7 @@ export const CATEGORY_CONFIG = {
     bg: "from-emerald-950/60 to-zinc-950/40",
     pill: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
     glow: "shadow-emerald-500/10",
-    services: ["Claude", "OpenAI", "Cursor", "Midjourney", "Perplexity", "Gemini"],
+    services: ["Claude", "OpenAI", "Cursor", "Midjourney", "Perplexity", "Gemini", "ChatGPT", "Antigravity"],
   },
   ott: {
     label: "Streaming & OTT",
@@ -33,7 +33,16 @@ export const CATEGORY_CONFIG = {
 
 export function categorize(serviceName: string): Category {
   const name = serviceName.toLowerCase();
-  if (CATEGORY_CONFIG.ai.services.some((s) => name.includes(s.toLowerCase()))) return "ai";
-  if (CATEGORY_CONFIG.ott.services.some((s) => name.includes(s.toLowerCase()))) return "ott";
+  
+  if (CATEGORY_CONFIG.ai.services.some((s) => {
+    const sLower = s.toLowerCase();
+    return name.includes(sLower) || sLower.includes(name);
+  })) return "ai";
+  
+  if (CATEGORY_CONFIG.ott.services.some((s) => {
+    const sLower = s.toLowerCase();
+    return name.includes(sLower) || sLower.includes(name);
+  })) return "ott";
+  
   return "misc";
 }
